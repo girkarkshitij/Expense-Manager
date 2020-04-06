@@ -4,7 +4,7 @@ from AdminPage import *
 
 
 class LoginFrame:
-    def __init__(self, parent, root, height, width, side, color, dbconnection, admincredentials):
+    def __init__(self, parent, root, height, width, side, color, dbconnection):
         self.parent = parent
         self.root = root
         self.height = height
@@ -13,7 +13,6 @@ class LoginFrame:
         self.font = ('Times', 12, 'roman')
         self.color = color
         self.dbConnection = dbconnection
-        self.adminCredentials = admincredentials
         self.frame = None
         self.userNameEntry = None
         self.userNameLabel = None
@@ -71,14 +70,22 @@ class LoginFrame:
         It checks the administrator credentials
         """
 
-        username = self.userNameEntry.get()
-        password = self.passwordEntry.get()
-
-        if username == self.adminCredentials[0] and password == self.adminCredentials[1]:
-            AdminPage(self.parent, self.color, self.font, self.dbConnection)
-        else:
-            """
-            Pop a message stating that the Username/Password is incorrect.
-            """
-            messagebox.showerror("Error", "The username and password that you entered did not match our records. "
+        try:
+            username = int(self.userNameEntry.get())
+            password = self.passwordEntry.get()
+            mycursor = self.dbConnection.cursor()
+            query = "select password from family where member_id= %s"
+            variable = (username,)
+            mycursor.execute(query, variable)
+            password_from_db = mycursor.fetchone()[0]
+            if password == password_from_db:
+                AdminPage(self.parent, self.color, self.font, self.dbConnection)
+            else:
+                """
+                Pop a message stating that the Username/Password is incorrect.
+                """
+                messagebox.showerror("Error", "The username and password that you entered did not match our records. "
+                                              "Please double-check and try again.")
+        except Exception:
+            messagebox.showerror("Error", "The entered username is not registered yet."
                                           "Please double-check and try again.")
