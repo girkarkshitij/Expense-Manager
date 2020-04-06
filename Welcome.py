@@ -1,5 +1,5 @@
-from tkinter import *
 from mysql.connector import MySQLConnection
+
 from LogInPage import *
 
 # Database
@@ -16,7 +16,7 @@ class WelcomePage:
         self.screen_width = root.winfo_screenwidth() / 2
         self.screen_height = root.winfo_screenheight() / 2
         self.dbConnection = MySQLConnection(user=USER, password=PASSWORD, host=HOST, database=DATABASE)
-        self.admincredentials = ('admin', 'root')  # TODO: Create admincredentials for other users
+        self.admincredentials = ('a', 'a')  # TODO: Create admincredentials for other users
         self.up_frame = None
         self.down_frame = None
         self.welcomeText = None
@@ -51,6 +51,7 @@ class WelcomePage:
                                       self.color,
                                       self.dbConnection,
                                       self.admincredentials)
+
 
 root = Tk()
 root.title("Expense Manager")

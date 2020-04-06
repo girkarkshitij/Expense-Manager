@@ -1,5 +1,6 @@
-from tkinter import *
 from tkinter import messagebox
+
+from AdminPage import *
 
 
 class LoginFrame:
@@ -74,10 +75,7 @@ class LoginFrame:
         password = self.passwordEntry.get()
 
         if username == self.adminCredentials[0] and password == self.adminCredentials[1]:
-            pass
-            # TODO create AdminPage
-            # AdminPage(self.parent, self.color, self.font,
-            #           self.dbConnection)
+            AdminPage(self.parent, self.color, self.font, self.dbConnection)
         else:
             """
             Pop a message stating that the Username/Password is incorrect.
