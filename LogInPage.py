@@ -79,13 +79,13 @@ class LoginFrame:
             mycursor.execute(query, variable)
             password_from_db = mycursor.fetchone()[0]
             if password == password_from_db:
-                AdminPage(self.parent, self.color, self.font, self.dbConnection)
+                AdminPage(self.parent, self.color, self.font, self.dbConnection, self.width)
             else:
                 """
                 Pop a message stating that the Username/Password is incorrect.
                 """
                 messagebox.showerror("Error", "The username and password that you entered did not match our records. "
                                               "Please double-check and try again.")
-        except Exception:
-            messagebox.showerror("Error", "The entered username is not registered yet."
-                                          "Please double-check and try again.")
+        except Exception as e:
+            messagebox.showerror(e, "The entered username is not registered yet."
+                                    "Please double-check and try again.")
