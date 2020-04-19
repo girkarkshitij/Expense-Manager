@@ -29,29 +29,28 @@ class AdminPage:
         self.up_frame = Frame(
             self.root,
             cursor='hand1',
-            bg='#C8FF1B',
-            height=self.screen_height / 8,
+            bg='#3BFF1D',
+            height=self.screen_height  * 1 / 8,
             width=self.screen_width)
         self.up_frame.grid_propagate(0)
-        self.up_frame.pack(side=TOP, expand=True, fill=BOTH)
-
+        self.up_frame.pack(side=TOP,  fill=BOTH)
         self.down_frame = Frame(
             self.root,
             cursor='hand1',
-            bg='#FFFFFF',
-            height=self.screen_height * 7 / 8,
+            bg='#E5FF26',
+            height=self.screen_height * 6 / 8,
             relief=RAISED,
             bd=5,
             width=self.screen_width)
         self.down_frame.grid_propagate(0)
-        self.down_frame.pack(side=TOP, expand=True, fill=BOTH)
+        self.down_frame.pack(side=TOP, expand = True, fill=BOTH)
 
         income_amount = self.print_total_income()
         expenses_amount = self.print_total_expenes()
-        self.income = Label(self.up_frame, height=5, width=35, text=income_amount, font=44).place(x=100, y=20)
-        self.expense = Label(self.up_frame, height=5, width=35, text=expenses_amount, font=44).place(x=550, y=20)
-        self.balance = Label(self.up_frame, height=5, width=35, text=income_amount - expenses_amount, font=44)
-        self.balance.place(x=1000, y=20)
+        self.income = Label(self.up_frame, height=2, width=35, text=income_amount, font=44).place(x=100, y=5)
+        self.expense = Label(self.up_frame, height=2, width=35, text=expenses_amount, font=44).place(x=550, y=5)
+        self.balance = Label(self.up_frame, height=2, width=35, text=income_amount - expenses_amount, font=44)
+        self.balance.place(x=1000, y=5)
         self.print_expenses(self.down_frame)
         self.print_income(self.down_frame)
 
@@ -72,12 +71,17 @@ class AdminPage:
         mycursor.execute("select * from mydatabase.expense")
         expenses_list = mycursor.fetchall()
 
-        # label = Label(frame, font=("Arial", 30), text="Expenses").place(x=100, y=40)
+        label = Label(frame, font=("Arial", 15), text=" Expenses ").place(x=700, y=10)
         cols = ("Number", "Expense-id", "Member-id", "Category", "Date", "Amount", "Comments")
         list_box = ttk.Treeview(frame, columns=cols, show='headings')
         for col in cols:
             list_box.heading(col, text=col)
-        list_box.grid(row=3, column=1, columnspan=3)
+        list_box.place(x=55, y=40)
+        verscrlbar = ttk.Scrollbar(frame,
+                                   orient="vertical",
+                                   command=list_box.yview)
+        verscrlbar.place(x=1400, y=50)
+        list_box.configure(xscrollcommand=verscrlbar.set)
         # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
         for i, (id1, id2, cat, date, am, comm) in enumerate(expenses_list, start=1):
             list_box.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
@@ -87,12 +91,17 @@ class AdminPage:
         mycursor.execute("select * from mydatabase.income")
         income_list = mycursor.fetchall()
 
-        # label = Label(frame, font=("Arial", 30), text="Income").place(x=100, y=200)
-        cols = ("Number", "Expense-id", "Member-id", "Category", "Date", "Amount", "Comments")
+        label = Label(frame, font=("Arial", 15), text="  Income  ").place(x=700, y=270)
+        cols = ("Number", "Income-id", "Member-id", "Category", "Date", "Amount", "Comments")
         list_box2 = ttk.Treeview(frame, columns=cols, show='headings')
         for col in cols:
             list_box2.heading(col, text=col)
-        list_box2.grid(row=15, column=1, columnspan=3)
+        list_box2.place(x =55 ,y=300)
+        verscrlbar = ttk.Scrollbar(frame,
+                                   orient="vertical",
+                                   command=list_box2.yview)
+        verscrlbar.place(x=1400, y=300)
+        list_box2.configure(xscrollcommand=verscrlbar.set)
         # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
         for i, (id1, id2, cat, date, am, comm) in enumerate(income_list, start=1):
             list_box2.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
