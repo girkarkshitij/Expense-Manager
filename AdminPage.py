@@ -30,10 +30,10 @@ class AdminPage:
             self.root,
             cursor='hand1',
             bg='#3BFF1D',
-            height=self.screen_height  * 1 / 8,
+            height=self.screen_height * 1 / 8,
             width=self.screen_width)
         self.up_frame.grid_propagate(0)
-        self.up_frame.pack(side=TOP,  fill=BOTH)
+        self.up_frame.pack(side=TOP, fill=BOTH)
         self.down_frame = Frame(
             self.root,
             cursor='hand1',
@@ -43,7 +43,7 @@ class AdminPage:
             bd=5,
             width=self.screen_width)
         self.down_frame.grid_propagate(0)
-        self.down_frame.pack(side=TOP, expand = True, fill=BOTH)
+        self.down_frame.pack(side=TOP, expand=True, fill=BOTH)
 
         income_amount = self.print_total_income()
         expenses_amount = self.print_total_expenes()
@@ -68,7 +68,7 @@ class AdminPage:
 
     def print_expenses(self, frame):
         mycursor = self.dbconnection.cursor()
-        mycursor.execute("select * from mydatabase.expense")
+        mycursor.execute("select * from mydatabase.expense order by expense_id desc")
         expenses_list = mycursor.fetchall()
 
         label = Label(frame, font=("Arial", 15), text=" Expenses ").place(x=700, y=10)
@@ -83,25 +83,24 @@ class AdminPage:
         verscrlbar.place(x=1400, y=50)
         list_box.configure(xscrollcommand=verscrlbar.set)
         # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
-        for i, (id1, id2, cat, date, am, comm) in enumerate(expenses_list, start=1):
+        for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(expenses_list, start=1))):
             list_box.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
 
     def print_income(self, frame):
         mycursor = self.dbconnection.cursor()
-        mycursor.execute("select * from mydatabase.income")
+        mycursor.execute("select * from mydatabase.income order by income_id desc")
         income_list = mycursor.fetchall()
-
         label = Label(frame, font=("Arial", 15), text="  Income  ").place(x=700, y=270)
         cols = ("Number", "Income-id", "Member-id", "Category", "Date", "Amount", "Comments")
         list_box2 = ttk.Treeview(frame, columns=cols, show='headings')
         for col in cols:
             list_box2.heading(col, text=col)
-        list_box2.place(x =55 ,y=300)
+        list_box2.place(x=55, y=300)
         verscrlbar = ttk.Scrollbar(frame,
                                    orient="vertical",
                                    command=list_box2.yview)
         verscrlbar.place(x=1400, y=300)
         list_box2.configure(xscrollcommand=verscrlbar.set)
         # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
-        for i, (id1, id2, cat, date, am, comm) in enumerate(income_list, start=1):
+        for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(income_list, start=1))):
             list_box2.insert("", "end", values=(i, id1, id2, cat, date, am, comm))

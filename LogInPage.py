@@ -72,20 +72,28 @@ class LoginFrame:
 
         try:
             username = int(self.userNameEntry.get())
-            password = self.passwordEntry.get()
             mycursor = self.dbConnection.cursor()
-            query = "select password from family where member_id= %s"
+            query1 = "select member_id from family"
             variable = (username,)
-            mycursor.execute(query, variable)
-            password_from_db = mycursor.fetchone()[0]
-            if password == password_from_db:
-                AdminPage(self.parent, self.color, self.font, self.dbConnection, self.width)
+            mycursor.execute(query1)
+            username_list = mycursor.fetchall()
+            final_username_list = []
+            for i in range(len(username_list)):
+                final_username_list.append(username_list[i][0])
+            if username not in final_username_list:
+                messagebox.showerror("Error", "Entered username is not registered.")
+
             else:
-                """
-                Pop a message stating that the Username/Password is incorrect.
-                """
-                messagebox.showerror("Error", "The username and password that you entered did not match our records. "
-                                              "Please double-check and try again.")
+                password = self.passwordEntry.get()
+                mycursor = self.dbConnection.cursor()
+                query = "select password from family where member_id= %s"
+                mycursor.execute(query, variable)
+                password_from_db = mycursor.fetchone()[0]
+                if password == password_from_db:
+                    AdminPage(self.parent, self.color, self.font, self.dbConnection, self.width)
+                else:
+                    messagebox.showerror("Error", "The username and password that you entered did not match our "
+                                                  "records. "
+                                                  "Please double-check and try again.")
         except Exception as e:
-            messagebox.showerror(e, "The entered username is not registered yet."
-                                    "Please double-check and try again.")
+            messagebox.showerror(e)
