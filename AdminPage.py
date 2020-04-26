@@ -3,9 +3,13 @@
 from tkinter import *
 from tkinter import ttk
 
+from NewExpense import *
+from NewIncome import *
+
 
 class AdminPage:
     def __init__(self, root, color, font, dbconnection, width):
+
         for child in root.winfo_children():
             child.destroy()
 
@@ -24,6 +28,8 @@ class AdminPage:
         self.income = None
         self.expense = None
         self.balance = None
+        self.addNewExpenseButton = None
+        self.addNewIncomeButton = None
 
     def gui_init(self):
         self.up_frame = Frame(
@@ -53,6 +59,22 @@ class AdminPage:
         self.balance.place(x=1000, y=5)
         self.print_expenses(self.down_frame)
         self.print_income(self.down_frame)
+        self.addNewExpenseButton = Button(self.down_frame, text="Add new expense", font=self.font)
+        self.addNewExpenseButton.place(x=400, y=570, anchor='center')
+        self.addNewExpenseButton.bind("<Button-1>", self.addNewExpense)
+        self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font)
+        self.addNewIncomeButton.place(x=800, y=570, anchor='center')
+        self.addNewIncomeButton.bind("<Button-2>", self.addNewIncome)
+
+    def addNewExpense(self, event):
+        new_window = Toplevel(self.root)
+        NewExpense(new_window, self.color, self.dbconnection)
+        new_window.wait_window()
+
+    def addNewIncome(self, event):
+        new_window = Toplevel(self.root)
+        NewIncome(new_window, self.color, self.dbconnection)
+        new_window.wait_window()
 
     def print_total_income(self):
         mycursor = self.dbconnection.cursor()
@@ -101,6 +123,6 @@ class AdminPage:
                                    command=list_box2.yview)
         verscrlbar.place(x=1400, y=300)
         list_box2.configure(xscrollcommand=verscrlbar.set)
-        # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
         for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(income_list, start=1))):
             list_box2.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
+
