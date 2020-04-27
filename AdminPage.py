@@ -8,13 +8,14 @@ from NewIncome import *
 
 
 class AdminPage:
-    def __init__(self, root, color, font, dbconnection, width):
+    def __init__(self, root, color, font, dbconnection, width, current_login):
 
         for child in root.winfo_children():
             child.destroy()
 
         self.root = root
         self.dbconnection = dbconnection
+        self.current_login = current_login
         self.color = color
         self.font = font
         self.screen_width = self.root.winfo_screenwidth() * 3 / 4
@@ -68,7 +69,8 @@ class AdminPage:
 
     def addNewExpense(self, event):
         new_window = Toplevel(self.root)
-        NewExpense(new_window, self.color, self.dbconnection)
+        NewExpense(new_window, self.color, self.dbconnection, self.current_login)
+        self.print_expenses(self.down_frame)
         new_window.wait_window()
 
     def addNewIncome(self, event):

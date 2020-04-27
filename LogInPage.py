@@ -19,6 +19,7 @@ class LoginFrame:
         self.passwordEntry = None
         self.passwordLabel = None
         self.loginButton = None
+        self.current_login = None
         self.gui_init()
 
     def gui_init(self):
@@ -89,8 +90,9 @@ class LoginFrame:
                 query = "select password from family where member_id= %s"
                 mycursor.execute(query, variable)
                 password_from_db = mycursor.fetchone()[0]
+                self.current_login = username
                 if password == password_from_db:
-                    AdminPage(self.parent, self.color, self.font, self.dbConnection, self.width)
+                    AdminPage(self.parent, self.color, self.font, self.dbConnection, self.width, self.current_login)
                 else:
                     messagebox.showerror("Error", "The username and password that you entered did not match our "
                                                   "records. "
