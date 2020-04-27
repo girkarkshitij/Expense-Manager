@@ -65,17 +65,16 @@ class AdminPage:
         self.addNewExpenseButton.bind("<Button-1>", self.addNewExpense)
         self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font)
         self.addNewIncomeButton.place(x=800, y=570, anchor='center')
-        self.addNewIncomeButton.bind("<Button-2>", self.addNewIncome)
+        self.addNewIncomeButton.bind("<Button-1>", self.addNewIncome)
 
     def addNewExpense(self, event):
         new_window = Toplevel(self.root)
         NewExpense(new_window, self.color, self.dbconnection, self.current_login)
-        self.print_expenses(self.down_frame)
         new_window.wait_window()
 
     def addNewIncome(self, event):
         new_window = Toplevel(self.root)
-        NewIncome(new_window, self.color, self.dbconnection)
+        NewIncome(new_window, self.color, self.dbconnection, self.current_login)
         new_window.wait_window()
 
     def print_total_income(self):
@@ -127,4 +126,3 @@ class AdminPage:
         list_box2.configure(xscrollcommand=verscrlbar.set)
         for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(income_list, start=1))):
             list_box2.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
-

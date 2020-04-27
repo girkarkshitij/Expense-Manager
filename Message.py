@@ -11,7 +11,7 @@ class Message(object):
         self.screen_height = self.root.winfo_screenheight()
         self.height = self.screen_height / 4
         self.width = self.screen_width / 4
-
+        self.frame = None
         self.gui_init()
 
     def gui_init(self):
@@ -29,32 +29,32 @@ class Message(object):
         self.frame.grid_propagate(0)
         self.frame.pack(expand=True, side=TOP, fill=BOTH)
         # creating labels
-        topFrame = Frame(
+        top_frame = Frame(
             self.frame,
             cursor='hand1',
             bg=self.color,
             height=self.height * 8 / 10,
             width=self.width)
-        topFrame.grid_propagate(0)
-        topFrame.pack(expand=True, fill=BOTH, side=TOP)
+        top_frame.grid_propagate(0)
+        top_frame.pack(expand=True, fill=BOTH, side=TOP)
 
-        downFrame = Frame(
+        down_frame = Frame(
             self.frame,
             cursor='hand1',
             bg=self.color,
             height=self.height * 2 / 10,
             width=self.width)
-        downFrame.grid_propagate(0)
-        downFrame.pack(expand=True, fill=BOTH, side=TOP)
+        down_frame.grid_propagate(0)
+        down_frame.pack(expand=True, fill=BOTH, side=TOP)
 
-        messageLabel = Label(
-            topFrame, text=self.message, font=self.font, bg=self.color)
-        messageLabel.place(relx=0.5, rely=0.5, anchor='center')
+        message_label = Label(
+            top_frame, text=self.message, font=self.font, bg=self.color)
+        message_label.place(relx=0.5, rely=0.5, anchor='center')
 
         # creating login button
-        okButton = Button(downFrame, text="OK", font=('Times', 8, 'roman'))
-        okButton.bind("<Button-1>", self.__ok)
-        okButton.place(relx=0.5, rely=0.5, anchor='center')
+        ok_button = Button(down_frame, text="OK", font=('Times', 8, 'roman'))
+        ok_button.bind("<Button-1>", self.__ok)
+        ok_button.place(relx=0.5, rely=0.5, anchor='center')
 
     def __ok(self, event):
         for child in self.root.winfo_children():
