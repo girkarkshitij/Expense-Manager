@@ -1,6 +1,5 @@
 # Dashboard
 
-from tkinter import *
 from tkinter import ttk
 
 from NewExpense import *
@@ -36,7 +35,7 @@ class AdminPage:
         self.up_frame = Frame(
             self.root,
             cursor='hand1',
-            bg='#3BFF1D',
+            bg='#3368FF',
             height=self.screen_height * 1 / 8,
             width=self.screen_width)
         self.up_frame.grid_propagate(0)
@@ -44,7 +43,7 @@ class AdminPage:
         self.down_frame = Frame(
             self.root,
             cursor='hand1',
-            bg='#E5FF26',
+            bg='#120C2C',
             height=self.screen_height * 6 / 8,
             relief=RAISED,
             bd=5,
@@ -66,7 +65,7 @@ class AdminPage:
         self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font)
         self.addNewIncomeButton.place(x=800, y=570, anchor='center')
         self.addNewIncomeButton.bind("<Button-1>", self.addNewIncome)
-
+        
     def addNewExpense(self, event):
         new_window = Toplevel(self.root)
         NewExpense(new_window, self.color, self.dbconnection, self.current_login)
@@ -105,7 +104,6 @@ class AdminPage:
                                    command=list_box.yview)
         verscrlbar.place(x=1400, y=50)
         list_box.configure(xscrollcommand=verscrlbar.set)
-        # close_button = Button(frame, text="Close", width=15, command=exit).grid(row=4, column=1)
         for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(expenses_list, start=1))):
             list_box.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
 
@@ -126,3 +124,12 @@ class AdminPage:
         list_box2.configure(xscrollcommand=verscrlbar.set)
         for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(income_list, start=1))):
             list_box2.insert("", "end", values=(i, id1, id2, cat, date, am, comm))
+        # select
+        # i.income_id, ic.name as category, i.member_id, i.income_date, i.comments
+        # from income i
+        # inner
+        # join
+        # i_category
+        # ic
+        # on
+        # i.income_category_id = ic.income_category_id

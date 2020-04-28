@@ -12,7 +12,7 @@ DATABASE = 'mydatabase'
 class WelcomePage:
     def __init__(self):
         self.root = root
-        self.color = '#7FFF9E'
+        self.color = '#E2FFE6'
         self.screen_width = root.winfo_screenwidth() / 2
         self.screen_height = root.winfo_screenheight() / 2
         self.dbConnection = MySQLConnection(user=USER, password=PASSWORD, host=HOST, database=DATABASE)
@@ -26,7 +26,7 @@ class WelcomePage:
         self.up_frame = Frame(
             self.root,
             cursor='arrow',
-            bg=self.color,
+            bg='#3368FF',
         )
         self.up_frame.pack(side=TOP, expand=True, fill=BOTH)
         self.down_frame = Frame(
@@ -40,7 +40,7 @@ class WelcomePage:
         self.welcomeText = Label(
             self.up_frame,
             text="Expense Manager",
-            font=('Verdana', 24, 'bold'),
+            font=('Verdana', 40, 'bold'),
             bg=self.color)
         self.welcomeText.place(relx=.5, rely=.5, anchor='center')
 
