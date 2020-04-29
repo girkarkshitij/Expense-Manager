@@ -4,7 +4,7 @@ from tkinter import *
 class Message(object):
     def __init__(self, root, color, message):
         self.root = root
-        self.font = ('Times', 8, 'roman')
+        self.font = ('Times',12 , 'roman')
         self.color = color
         self.message = message
         self.screen_width = self.root.winfo_screenwidth()
