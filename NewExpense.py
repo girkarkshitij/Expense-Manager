@@ -17,15 +17,6 @@ class NewExpense:
         self.gui_init()
         self.frame = None
         self.topFrame = None
-        self.categoryLabel = None
-        self.amountLabel = None
-        self.commentLabel = None
-        self.category_options = None
-        self.variable = None
-        self.categoryEntry = None
-        self.amountEntry = None
-        self.commentEntry = None
-        self.submit_button = None
 
     def gui_init(self):
         self.root.title("Add new expense record")

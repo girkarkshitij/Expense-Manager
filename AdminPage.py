@@ -22,7 +22,6 @@ class AdminPage:
         self.width = width
         self.gui_init()
         self.up_frame = None
-        self.down_frame = None
         self.dashBoard = None
         self.logoutFrame = None
         self.income = None
@@ -64,13 +63,13 @@ class AdminPage:
         self.balance.place(x=1000, y=5)
         self.print_expenses(self.down_frame)
         self.print_income(self.down_frame)
-        self.addNewExpenseButton = Button(self.down_frame, text="Add new expense", font=self.font,  bg='#938DF6')
+        self.addNewExpenseButton = Button(self.down_frame, text="Add new expense", font=self.font, bg='#938DF6')
         self.addNewExpenseButton.place(x=500, y=570, anchor='center')
         self.addNewExpenseButton.bind("<Button-1>", self.addNewExpense)
-        self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font,  bg='#938DF6')
+        self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font, bg='#938DF6')
         self.addNewIncomeButton.place(x=1000, y=570, anchor='center')
         self.addNewIncomeButton.bind("<Button-1>", self.addNewIncome)
-        self.family_income = Button(self.down_frame, text="Total Family Income", font=self.font,  bg='#938DF6')
+        self.family_income = Button(self.down_frame, text="Total Family Income", font=self.font, bg='#938DF6')
         self.family_income.place(x=1000, y=650, anchor='center')
         self.family_income.bind("<Button-1>", self.display_family_income)
         self.family_expenses = Button(self.down_frame, text="Total Family Expenses", font=self.font, bg='#938DF6')
@@ -98,11 +97,13 @@ class AdminPage:
         new_window = Toplevel(self.root)
         NewExpense(new_window, self.color, self.dbconnection, self.current_login)
         new_window.wait_window()
+        self.print_expenses(self.down_frame)
 
     def addNewIncome(self, event):
         new_window = Toplevel(self.root)
         NewIncome(new_window, self.color, self.dbconnection, self.current_login)
         new_window.wait_window()
+        self.print_income(self.down_frame)
 
     def print_total_income(self):
         mycursor = self.dbconnection.cursor()
@@ -137,6 +138,7 @@ class AdminPage:
                                    command=list_box.yview)
         verscrlbar.place(x=1400, y=50)
         list_box.configure(xscrollcommand=verscrlbar.set)
+
         for i, (id1, id2, cat, date, am, comm) in reversed(list(enumerate(expenses_list, start=1))):
             list_box.insert("", "end", values=(id1, id2, cat, date, am, comm))
 
